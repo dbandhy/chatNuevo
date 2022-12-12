@@ -1,9 +1,9 @@
-const fs = require("fs");
+import { promises, existsSync } from "fs";
 
 const creandoArchivo = async (fileName) => {
     try {
        //Creo un nuevo archivo 
-      await fs.promises.writeFile(fileName, "[]");
+      await promises.writeFile(fileName, "[]");
     } catch (error) {
       throw error;
     }
@@ -11,7 +11,7 @@ const creandoArchivo = async (fileName) => {
 
   const existeArchivo = async (fileName) => {
     //Chequeo que el archivo exista, si no existe creo uno nuevo
-    const stats = fs.existsSync(fileName);
+    const stats = existsSync(fileName);
   
     if (stats == false) {
       console.log(`Creacion del archivo: ${fileName}`);
@@ -20,7 +20,7 @@ const creandoArchivo = async (fileName) => {
   };
 
   
-class Contenedor{
+export default class Contenedor{
 
     constructor(fileName){
         this.fileName= fileName
@@ -31,7 +31,7 @@ class Contenedor{
     try{
         await existeArchivo(this.fileName)
     
-        const contenido = JSON.parse(await fs.promises.readFile(this.fileName))
+        const contenido = JSON.parse(await promises.readFile(this.fileName))
         let longitud = contenido.length;
         let index = 0
         
@@ -44,7 +44,7 @@ class Contenedor{
             
             objeto.id = index
             contenido.push(objeto)
-            await fs.promises.writeFile(this.fileName, JSON.stringify(contenido));
+            await promises.writeFile(this.fileName, JSON.stringify(contenido));
             return objeto.id
 
     }catch(error){
@@ -55,7 +55,7 @@ class Contenedor{
    // getById(Number): Object - Recibe un id y devuelve el objeto con ese id, o null si no está.
     async getById(id){
        try{
-        const contenido = await fs.promises.readFile(this.fileName)
+        const contenido = await promises.readFile(this.fileName)
         const objeto = JSON.parse(contenido)
 
         let objetoId = objeto.find((x) => x.id == id) || null;
@@ -72,7 +72,7 @@ class Contenedor{
     try{
         await existeArchivo(this.fileName)
 
-        const contenidoCrudo = await fs.promises.readFile(this.fileName)
+        const contenidoCrudo = await promises.readFile(this.fileName)
         const contenido = JSON.parse(contenidoCrudo)
         return contenido;
     }catch(error){
@@ -84,12 +84,12 @@ class Contenedor{
    // deleteById(Number): void - Elimina del archivo el objeto con el id buscado.
    async deleteById(id){
        try{
-        const contenido = await fs.promises.readFile(this.fileName)
+        const contenido = await promises.readFile(this.fileName)
         const contenidoParseado = JSON.parse(contenido)
         
         let arrayFiltrado = contenidoParseado.filter((x) => x.id !== id)
     
-        await fs.promises.writeFile(this.fileName, JSON.stringify(arrayFiltrado))
+        await promises.writeFile(this.fileName, JSON.stringify(arrayFiltrado))
     
        }catch(error){
         throw error
@@ -129,5 +129,5 @@ const ejecutarProductos = async () => {
 
 // ejecutarProductos()
 
-module.exports= Contenedor
+//export default Contenedor
 

@@ -1,100 +1,11 @@
-const Contenedor = require("./desafio")
-const express = require("express")
-const {Server: HttpServer}= require("http")
-const {Server: IOServer} = require("socket.io")
-const fs = require("fs")
-//const leerArchivo = new Contenedor("productos.txt")
-const contenedor = require('./mysql')
- const router = express.Router()
-const app= express()
-const {engine} = require("express-handlebars")
-const crypto = require('crypto')
-const generarId = crypto.randomUUID()
-const httpServer= new HttpServer(app)
-const ioServer= new IOServer(httpServer)
 
-//MOTOR DE PLANTILLAS: HANDLEBARS
-// app.engine(
-//     "hbs",
-//     engine({
-//         extname:".hbs",
-//         defaultLayout:"index.hbs"
-//     })
-// )
+import express from 'express'
+import {routerProductos } from './routerProductos.js'
+import { routerChat } from './routerChat.js'
 
-// app.set("views", "./public/views")
-// app.set("view engine", "hbs")
-
+export const app = express()
 app.use(express.json())
-app.use(express.urlencoded({ extended: true }));
-app.use(express.static(__dirname + "/public"))
-
-
-router.post('/', async (req, res) => {
-    const nuevoProducto = req.body
-    nuevoProducto.id = generarId()
-    await contenedorDeProductos.save(nuevoProducto)
-    res.json(nuevoProducto)
-})
-
-app.get('/', async (req, res) => {
-    res.json(await contenedorDeProductos.getAll())
-})
-// app.get("/", (req, res) => {
-//     const traerProductos = async () => {
-//         try{
-//             const data = await leerArchivo.getAll()
-//             res.render("formulario", {data:data}) 
-            
-            
-//         }catch(error){
-//             throw new Error(error)
-//         }
-//     };
-//     traerProductos()
-// })
-
-// app.post("/productos",(req,res) => {    
-//     const agregarProducto = async() => {
-//         try{
-//             const objetoNuevo = req.body
-//             console.log(objetoNuevo)
-//             await leerArchivo.save(objetoNuevo)
-//             res.redirect("/") 
-//         }catch(error){
-//             throw new Error(error)
-//         }
-//     }
-//     agregarProducto()
-// })
-
-//WEBSOCKETS
-// const chatParseado= JSON.parse(fs.readFileSync("chatMensajes.txt"))
-
-// ioServer.on("connection", async (socket) => {
-
-//     console.log("Usuario conectado")
-
-    //PRODUCTOS
-    // socket.emit("products", await leerArchivo.getAll())
-    // socket.on("new_product", async(producto) => {
-    //     console.log(producto)
-    //     await leerArchivo.save(producto)
-    //     const data = await leerArchivo.getAll()
-    //     ioServer.sockets.emit("products", data)
-    // })
-
-    //MENSAJES -CHAT
-//     socket.emit("messages",chatParseado)
-//     socket.on("new_message", async(mensaje) =>{   
-//         chatParseado.push(mensaje);
-//         ioServer.sockets.emit("messages", chatParseado)
-//         await fs.promises.writeFile("chatMensajes.txt", JSON.stringify(chatParseado))
-        
-//     })
-// })
-
-httpServer.listen(8080, () => {
-    console.log("Server listening in port 8080")
-})
-
+ 
+//ROUTEs
+app.use('/api/productos', routerProductos)
+app.use('/api/chat', routerChat)
