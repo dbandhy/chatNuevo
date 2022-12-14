@@ -721,3 +721,7 @@ coderhouse> db.productos.find()
     stock: 100
   }
 ]
+
+db.productos.updateMany({}, {$inc: {stock: 100}});
+
+db.productos.updateMany({price: {$gt: 4000}}, {$set: {stock: 0}});
