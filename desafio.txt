@@ -27,6 +27,7 @@ accessible to you
 
 test> use coderhouse
 switched to db coderhouse
+
 coderhouse> db.createCollection('productos')
 { ok: 1 }
 coderhouse> show dbs
@@ -36,60 +37,26 @@ config      72.00 KiB
 local       72.00 KiB
 coderhouse> show collections
 productos
-coderhouse> db.productos
-coderhouse.productos
+
 coderhouse> use admin
 switched to db admin
-admin> db.createUser(
-...   {
-...     user: "<nombre_del_usuario>",
-...     pwd: "<contraseña>",
-...     roles:
-...        { role: "< read | readWrite", db: "<base_de_datos>" }
-...     ]
-Uncaught:
-SyntaxError: Unexpected token, expected "," (7:4)
-
-  5 |     roles:
-  6 |        { role: "< read | readWrite", db: "<base_de_datos>" }
-> 7 |     ]
-    |     ^
-  8 |
-
-admin>   }
-Uncaught:
-SyntaxError: Unexpected token (1:2)
-
-> 1 |   }
-    |   ^
-  2 |
 
 admin> db.createUser({user:"root", pwd:"mongopassword", roles:["root"]})        
 { ok: 1 }
+
 admin> db.createUser({user: "pepe", pwd:"asd456", roles: [{ role: "read", db: "coderhouse"}]})
 { ok: 1 }
+
 admin> use coderhouse
+
 switched to db coderhouse
+
 coderhouse> db.chat.insertOne({mail:"diego@gmail.com", mensaje:"hola"})
 {
   acknowledged: true,
   insertedId: ObjectId("6397ff202cbd434779a4ed18")
 }
-coderhouse> db.chat.find
-[Function: find] AsyncFunction {
-  returnsPromise: true,
-  apiVersions: [ 1, Infinity ],
-  returnType: 'Cursor',
-  serverVersions: [ '0.0.0', '999.999.999' ],
-  topologies: [ 'ReplSet', 'Sharded', 'LoadBalanced', 'Standalone' ],
-  deprecated: false,
-  platforms: [ 'Compass', 'Browser', 'CLI' ],
-  isDirectShellCommand: false,
-  acceptsRawInput: false,
-  shellCommandCompleter: undefined,
-  help: [Function (anonymous)] Help
-}
-coderhouse> db.coderhouse.find()
+
 
 coderhouse> db.chat.find()
 [
@@ -99,25 +66,13 @@ coderhouse> db.chat.find()
     mensaje: 'hola'
   }
 ]
+
 coderhouse> db.chat.insertOne({mail:"agustin@gmail.com", mensaje:"bien"})       
 {
   acknowledged: true,
   insertedId: ObjectId("6398005a2cbd434779a4ed19")
 }
-coderhouse> db.chat.find
-[Function: find] AsyncFunction {
-  returnsPromise: true,
-  apiVersions: [ 1, Infinity ],
-  returnType: 'Cursor',
-  serverVersions: [ '0.0.0', '999.999.999' ],
-  topologies: [ 'ReplSet', 'Sharded', 'LoadBalanced', 'Standalone' ],
-  deprecated: false,
-  platforms: [ 'Compass', 'Browser', 'CLI' ],
-  isDirectShellCommand: false,
-  acceptsRawInput: false,
-  shellCommandCompleter: undefined,
-  help: [Function (anonymous)] Help
-}
+
 coderhouse> db.chat.find()
 [
   {
@@ -131,11 +86,13 @@ coderhouse> db.chat.find()
     mensaje: 'bien'
   }
 ]
+
 coderhouse> db.chat.insertOne({product:"peliculaUno", precio: 120, thumbnail:"uno.url"})
 {
   acknowledged: true,
   insertedId: ObjectId("6398051c2cbd434779a4ed1a")
 }
+
 coderhouse> db.chat.find()
 [
   {
@@ -170,6 +127,7 @@ coderhouse> db.chat.find()
     mensaje: 'bien'
   }
 ]
+
 coderhouse> db.productos.insertOne({product: 'peliculaUno', precio: 120, thumbnail:'one.url'})
 {
   acknowledged: true,
@@ -184,8 +142,7 @@ coderhouse> db.productos.find()
     thumbnail: 'one.url'
   }
 ]
-coderhouse> ddb.productos.insertOne({product: 'peliculaDos', precio: 580, thumbnail:'two.url'})
-ReferenceError: ddb is not defined
+
 coderhouse> db.productos.insertOne({product: 'peliculaDos', precio: 580, thumbnail:'two.url'}
 ...
 ...
@@ -241,21 +198,25 @@ coderhouse> db.productos.insertOne({ product: 'peliculaOcho', precio: 3350, thum
 }
 coderhouse> db.productos.deleteOne({product: 'peliculaSiete'})
 { acknowledged: true, deletedCount: 1 }
+
 coderhouse> db.productos.insertOne({ product: 'peliculaSiete', precio: 2860, thumbnail: 'seven.url' })
 {
   acknowledged: true,
   insertedId: ObjectId("639806f62cbd434779a4ed23")
 }
+
 coderhouse> db.productos.insertOne({ product: 'peliculaNueve', precio: 4320, thumbnail: 'nine.url' })
 {
   acknowledged: true,
   insertedId: ObjectId("6398070e2cbd434779a4ed24")
 }
+
 coderhouse> db.productos.insertOne({ product: 'peliculaDiez', precio: 4990, thumbnail: 'ten.url' })
 {
   acknowledged: true,
   insertedId: ObjectId("6398071d2cbd434779a4ed25")
 }
+
 coderhouse> db.productos.find()
 [
   {
@@ -319,13 +280,6 @@ coderhouse> db.productos.find()
     thumbnail: 'ten.url'
   }
 ]
-coderhouse> db.productos.find({precio: {$:gt:1000}})
-Uncaught:
-SyntaxError: Unexpected token, expected "," (1:32)
-
-> 1 | db.productos.find({precio: {$:gt:1000}})
-    |                                 ^
-  2 |
 
 coderhouse> db.productos.find({precio: {$gt:1000}})
 [
@@ -372,6 +326,7 @@ coderhouse> db.productos.find({precio: {$gt:1000}})
     thumbnail: 'ten.url'
   }
 ]
+
 coderhouse> db.productos.find({precio: {$lt:1000}})
 [
   {
@@ -393,6 +348,7 @@ coderhouse> db.productos.find({precio: {$lt:1000}})
     thumbnail: 'three.url'
   }
 ]
+
 coderhouse> db.productos.find({precio: {$gt:3000}})
 [
   {
@@ -414,25 +370,8 @@ coderhouse> db.productos.find({precio: {$gt:3000}})
     thumbnail: 'ten.url'
   }
 ]
-coderhouse> db.productos.find({precio: {$gt:1000}, {$lt:3000}})
-Uncaught:
-SyntaxError: Unexpected token (1:39)
-
-> 1 | db.productos.find({precio: {$gt:1000}, {$lt:3000}})
-    |                                        ^
-  2 |
-
-coderhouse> db.productos.find( {$or: {precio: {$gt:1000}, {$lt:3000}}})
-Uncaught:
-SyntaxError: Unexpected token (1:46)
-
-> 1 | db.productos.find( {$or: {precio: {$gt:1000}, {$lt:3000}}})
-    |                                               ^
-  2 |
 
 coderhouse> db.productos.find({precio:{$in: [1000, 3000]}})
-
-coderhouse> db.products.find()
 
 coderhouse> db.productos.find()
 [
@@ -497,9 +436,6 @@ coderhouse> db.productos.find()
     thumbnail: 'ten.url'
   }
 ]
-coderhouse> db.productos.find({precio:{$all: [1000, 3000]}})
-
-coderhouse> db.productos.find({$or:[{precio:1000}, {precio:3000}]})
 
 coderhouse> db.productos.find({$nor:[{precio:1000}, {precio:3000}]})
 [
@@ -564,9 +500,7 @@ coderhouse> db.productos.find({$nor:[{precio:1000}, {precio:3000}]})
     thumbnail: 'ten.url'
   }
 ]
-coderhouse> db.productos.find({$in:[{precio:1000}, {precio:3000}]})
-MongoServerError: unknown top level operator: $in. If you have a field name that starts with a '$' symbol, consider using $getField or $setField.
-coderhouse> db.productos.find({$or:[{precio:1000}, {precio:3000}]})
+
 
 coderhouse> db.productos.find({$nor:[{precio:1000}, {precio:3000}]})
 [
@@ -631,14 +565,7 @@ coderhouse> db.productos.find({$nor:[{precio:1000}, {precio:3000}]})
     thumbnail: 'ten.url'
   }
 ]
-coderhouse> db.productos.find({$all:[{precio:1000}, {precio:3000}]})
-MongoServerError: unknown top level operator: $all. If you have a field name that starts with a '$' symbol, consider using $getField or $setField.
-coderhouse> db.productos.find({$and:[{precio:1000}, {precio:3000}]})
 
-coderhouse> db.productos.find({$in:[{precio:1000}, {precio:3000}]})
-MongoServerError: unknown top level operator: $in. If you have a field name that starts with a '$' symbol, consider using $getField or $setField.
-coderhouse> db.productos.sort({precio: -1})
-TypeError: db.productos.sort is not a function
 coderhouse> db.productos.find().sort({precio: -1})
 [
   {
@@ -702,157 +629,8 @@ coderhouse> db.productos.find().sort({precio: -1})
     thumbnail: 'one.url'
   }
 ]
-coderhouse> db.productos.find().sort({precio: 3})
-MongoInvalidArgumentError: Invalid sort direction: 3
-coderhouse> db.productos.find().sort({precio: -2})
-MongoInvalidArgumentError: Invalid sort direction: -2
-coderhouse> db.productos.find().sort({precio: 1})
-[
-  {
-    _id: ObjectId("639805e32cbd434779a4ed1b"),
-    product: 'peliculaUno',
-    precio: 120,
-    thumbnail: 'one.url'
-  },
-  {
-    _id: ObjectId("6398063c2cbd434779a4ed1c"),
-    product: 'peliculaDos',
-    precio: 580,
-    thumbnail: 'two.url'
-  },
-  {
-    _id: ObjectId("6398065b2cbd434779a4ed1d"),
-    product: 'peliculaTres',
-    precio: 900,
-    thumbnail: 'three.url'
-  },
-  {
-    _id: ObjectId("639806722cbd434779a4ed1e"),
-    product: 'peliculaCuatro',
-    precio: 1280,
-    thumbnail: 'four.url'
-  },
-  {
-    _id: ObjectId("639806812cbd434779a4ed1f"),
-    product: 'peliculaCinco',
-    precio: 1700,
-    thumbnail: 'five.url'
-  },
-  {
-    _id: ObjectId("639806912cbd434779a4ed20"),
-    product: 'peliculaSeis',
-    precio: 2300,
-    thumbnail: 'six.url'
-  },
-  {
-    _id: ObjectId("639806f62cbd434779a4ed23"),
-    product: 'peliculaSiete',
-    precio: 2860,
-    thumbnail: 'seven.url'
-  },
-  {
-    _id: ObjectId("639806c92cbd434779a4ed22"),
-    product: 'peliculaOcho',
-    precio: 3350,
-    thumbnail: 'eight.url'
-  },
-  {
-    _id: ObjectId("6398070e2cbd434779a4ed24"),
-    product: 'peliculaNueve',
-    precio: 4320,
-    thumbnail: 'nine.url'
-  },
-  {
-    _id: ObjectId("6398071d2cbd434779a4ed25"),
-    product: 'peliculaDiez',
-    precio: 4990,
-    thumbnail: 'ten.url'
-  }
-]
-coderhouse> db.productos.find().sort({precio: 1})
-[
-  {
-    _id: ObjectId("639805e32cbd434779a4ed1b"),
-    product: 'peliculaUno',
-    precio: 120,
-    thumbnail: 'one.url'
-  },
-  {
-    _id: ObjectId("6398063c2cbd434779a4ed1c"),
-    product: 'peliculaDos',
-    precio: 580,
-    thumbnail: 'two.url'
-  },
-  {
-    _id: ObjectId("6398065b2cbd434779a4ed1d"),
-    product: 'peliculaTres',
-    precio: 900,
-    thumbnail: 'three.url'
-  },
-  {
-    _id: ObjectId("639806722cbd434779a4ed1e"),
-    product: 'peliculaCuatro',
-    precio: 1280,
-    thumbnail: 'four.url'
-  },
-  {
-    _id: ObjectId("639806812cbd434779a4ed1f"),
-    product: 'peliculaCinco',
-    precio: 1700,
-    thumbnail: 'five.url'
-  },
-  {
-    _id: ObjectId("639806912cbd434779a4ed20"),
-    product: 'peliculaSeis',
-    precio: 2300,
-    thumbnail: 'six.url'
-  },
-  {
-    _id: ObjectId("639806f62cbd434779a4ed23"),
-    product: 'peliculaSiete',
-    precio: 2860,
-    thumbnail: 'seven.url'
-  },
-  {
-    _id: ObjectId("639806c92cbd434779a4ed22"),
-    product: 'peliculaOcho',
-    precio: 3350,
-    thumbnail: 'eight.url'
-  },
-  {
-    _id: ObjectId("6398070e2cbd434779a4ed24"),
-    product: 'peliculaNueve',
-    precio: 4320,
-    thumbnail: 'nine.url'
-  },
-  {
-    _id: ObjectId("6398071d2cbd434779a4ed25"),
-    product: 'peliculaDiez',
-    precio: 4990,
-    thumbnail: 'ten.url'
-  }
-]
-coderhouse> db.productos.find().sort({precio: 1}).limit(3)
-[
-  {
-    _id: ObjectId("639805e32cbd434779a4ed1b"),
-    product: 'peliculaUno',
-    precio: 120,
-    thumbnail: 'one.url'
-  },
-  {
-    _id: ObjectId("6398063c2cbd434779a4ed1c"),
-    product: 'peliculaDos',
-    precio: 580,
-    thumbnail: 'two.url'
-  },
-  {
-    _id: ObjectId("6398065b2cbd434779a4ed1d"),
-    product: 'peliculaTres',
-    precio: 900,
-    thumbnail: 'three.url'
-  }
-]
+
+
 coderhouse> db.productos.find().sort({precio: 1}).limit(1).skip(2)
 [
   {
@@ -943,4 +721,3 @@ coderhouse> db.productos.find()
     stock: 100
   }
 ]
-coderhouse> db.productos.find().sort({precio: 1})
